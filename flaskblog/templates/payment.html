@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+
+   <form class="jumbotron" action="/charge" method="post">
+        <span>
+            <label class="container">
+          <p class="h4">Amount due for this month is <strong>$50.00</strong></p>
+      </label>
+        <!--<script src="https://checkout.stripe.com/checkout.js" class="stripe-button ml-5"-->
+            <!--data-key="{{ key }}"-->
+            <!--data-description="You can pay your dues here"-->
+            <!--data-amount="50"-->
+            <!--data-locale="auto"></script>-->
+        </span>
+
+       <script src="https://checkout.stripe.com/checkout.js"></script>
+
+<button class="btn btn-success ml-3 rounded" id="customButton">Pay with card</button>
+
+<script>
+var handler = StripeCheckout.configure({
+  key: 'pk_test_cPNvqfSAK8oSRiFIesZWr3xN',
+  image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  locale: 'auto',
+  token: function(token) {
+    // You can access the token ID with `token.id`.
+    // Get the token ID to your server-side code for use.
+  }
+});
+
+document.getElementById('customButton').addEventListener('click', function(e) {
+  // Open Checkout with further options:
+  handler.open({
+    name: 'CatchUp',
+    description: 'Dues come here',
+    zipCode: true,
+    amount: 5000
+  });
+  e.preventDefault();
+});
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  handler.close();
+});
+</script>
+
+  </form>
+
+
+
+
+{% endblock %}
